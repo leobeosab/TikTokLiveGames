@@ -1,0 +1,8 @@
+C:\Users\boond\TikTokLiveGames\ControllerServer\Server\bin\Debug\FeederDemoCS.exe
+C:\Users\boond\TikTokLiveGames\ControllerServer\Server\bin\Debug\FeederDemoCS.pdb
+C:\Users\boond\TikTokLiveGames\ControllerServer\Server\bin\Debug\vJoyInterfaceWrap.dll
+C:\Users\boond\TikTokLiveGames\ControllerServer\Server\obj\Debug\FeederDemoCS.csproj.AssemblyReference.cache
+C:\Users\boond\TikTokLiveGames\ControllerServer\Server\obj\Debug\FeederDemoCS.csproj.CoreCompileInputs.cache
+C:\Users\boond\TikTokLiveGames\ControllerServer\Server\obj\Debug\FeederDemoCS.csproj.CopyComplete
+C:\Users\boond\TikTokLiveGames\ControllerServer\Server\obj\Debug\FeederDemoCS.exe
+C:\Users\boond\TikTokLiveGames\ControllerServer\Server\obj\Debug\FeederDemoCS.pdb
