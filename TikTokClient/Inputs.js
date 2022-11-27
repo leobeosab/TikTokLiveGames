@@ -9,11 +9,24 @@ export class Inputs{
         for(let input of this.inputArray){
             this.inputObject[input] = 0;
         }
-        console.log(this.inputObject)
     }
     increment(input){
         this.inputObject[input] += 1;
-        console.log(this.inputObject);
+    }
+    chooseFavorite(){
+        let current = Object.keys(this.inputObject)[0];
+        for(const key of Object.keys(this.inputObject)){
+           if(this.inputObject[key] > this.inputObject[current]){
+               current = key;
+           }
+       }
+       if(this.inputObject[current] > 0){
+           return current;``
+       }
+    }
+    clear(){
+        this.inputObject = {};
+        this.setup();
     }
 
 }
