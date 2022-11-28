@@ -1,11 +1,13 @@
 import {Inputs} from './Inputs.js';
 import { WebcastPushConnection }  from 'tiktok-live-connector';
 
+//new inputs class with desired inputs
 const inputs = new Inputs(['up','down','ls','rs','left','right','start','select']);
 
 // Username of someone who is currently live
-let tiktokUsername = "unstoutable";
+let tiktokUsername = "itsnawty";
 
+// if the chat message contains any of these words select them and remove the rest
 const regEx = /(?:\b|')(ls|rs|up|down|left|right|start|select)(?:\b|')/
 // Create a new wrapper object and pass the username
 let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername,{
@@ -34,6 +36,11 @@ let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername,{
 // Connect to the chat (await can be used as well)
 tiktokLiveConnection.connect().then(state => {
     console.info(`Connected to roomId ${state.roomId}`);
+    setInterval(() => {
+        inputs.chooseFavorite().then(() => {
+            inputs.clear();
+        });
+    }, 5000)
 }).catch(err => {
     console.error('Failed to connect', err);
 })
