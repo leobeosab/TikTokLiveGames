@@ -1,80 +1,94 @@
 ﻿using System;
-using vJoyInterfaceWrap;
+using Nefarius.ViGEm.Client;
+using Nefarius.ViGEm.Client.Targets;
+using Nefarius.ViGEm.Client.Targets.DualShock4;
+using Nefarius.ViGEm.Client.Targets.Xbox360;
 
 namespace ControllerServer;
 
 public class Controller
 {
-    private vJoy joystick;
+    private ViGEmClient client;
+    private IDualShock4Controller controller;
     private uint id = 1;
-    
+
     public Controller()
     {
-            joystick = new vJoy();
-
-            // Get the driver attributes (Vendor ID, Product ID, Version Number)
-            if (!joystick.vJoyEnabled())
-            {
-                Console.WriteLine("vJoy driver not enabled: Failed Getting vJoy attributes.\n");
-                return;
-            }
-            
-            Console.WriteLine("Vendor: {0}\nProduct :{1}\nVersion Number:{2}\n", joystick.GetvJoyManufacturerString(), joystick.GetvJoyProductString(), joystick.GetvJoySerialNumberString());
-
-            // Get the state of the requested device
-            VjdStat status = joystick.GetVJDStatus(id);
-            switch (status)
-            {
-                case VjdStat.VJD_STAT_OWN:
-                    Console.WriteLine("vJoy Device {0} is already owned by this feeder\n", id);
-                    break;
-                case VjdStat.VJD_STAT_FREE:
-                    Console.WriteLine("vJoy Device {0} is free\n", id);
-                    break;
-                case VjdStat.VJD_STAT_BUSY:
-                    Console.WriteLine("vJoy Device {0} is already owned by another feeder\nCannot continue\n", id);
-                    return;
-                case VjdStat.VJD_STAT_MISS:
-                    Console.WriteLine("vJoy Device {0} is not installed or disabled\nCannot continue\n", id);
-                    return;
-                default:
-                    Console.WriteLine("vJoy Device {0} general error\nCannot continue\n", id);
-                    return;
-            };
-
-            // Test if DLL matches the driver
-            UInt32 DllVer = 0, DrvVer = 0;
-            bool match = joystick.DriverMatch(ref DllVer, ref DrvVer);
-            if (match)
-            {
-                
-                Console.WriteLine("Version of Driver Matches DLL Version ({0:X})\n", DllVer);
-            }
-            else
-            {
-                Console.WriteLine("Version of Driver ({0:X}) does NOT match DLL Version ({1:X})\n", DrvVer, DllVer);
-            }
-
-
-            // Acquire the target
-            if ((status == VjdStat.VJD_STAT_OWN) || ((status == VjdStat.VJD_STAT_FREE) && (!joystick.AcquireVJD(id))))
-            {
-                Console.WriteLine("Failed to acquire vJoy device number {0}.\n", id);
-                return ;
-            }
-            
-            Console.WriteLine("Acquired: vJoy device number {0}.\n", id);
-
-            long maxval = 0;
-
-            joystick.GetVJDAxisMax(id, HID_USAGES.HID_USAGE_X, ref maxval);
-            joystick.ResetVJD(id);
+        client = new ViGEmClient();
+        controller = client.CreateDualShock4Controller();
+        controller.Connect();
     }
 
-    public void PressButton(uint buttonId)
+    public void PressButton(string buttonId)
     {
-        joystick.SetBtn(true, id, buttonId);
+        buttonId = buttonId.ToUpper();
+        switch (buttonId)
+        {
+            case "A":
+                Button(DualShock4Button.Cross);
+                break;
+            case "B":
+                Button(DualShock4Button.Circle);
+                break;
+            case "START":
+                Button(DualShock4Button.Options);
+                break;
+            case "SELECT":
+                Button(DualShock4Button.Share);
+                break;
+        }
+    }
+
+    public void PressDPad(string direction)
+    {
+        direction = direction.ToUpper();
+        switch (direction)
+        {
+            case "NORTH":
+                Dpad(DualShock4DPadDirection.North);
+                break;
+            case "NORTHWEST":
+                Dpad(DualShock4DPadDirection.Northwest);
+                break;
+            case "NORTHEAST":
+                Dpad(DualShock4DPadDirection.Northwest);
+                break;
+            case "EAST":
+                Dpad(DualShock4DPadDirection.East);
+                break;
+            case "WEST":
+                Dpad(DualShock4DPadDirection.West);
+                break;
+            case "SOUTH":
+                Dpad(DualShock4DPadDirection.South);
+                break;
+            case "SOUTHWEST":
+                Dpad(DualShock4DPadDirection.Southwest);
+                break;
+            case "SOUTHEAST":
+                Dpad(DualShock4DPadDirection.Southeast);
+                break;
+            
+        }
+    }
+
+    private void Sleep()
+    {
         System.Threading.Thread.Sleep(50);
-        joystick.SetBtn(false, id, buttonId);
+    }
+
+    private void Dpad(DualShock4DPadDirection direction)
+    {
+        controller.SetDPadDirection(direction);
+        Sleep();
+        controller.SetDPadDirection(DualShock4DPadDirection.None);
+    }
+
+    private void Button(DualShock4Button button)
+    {
+        controller.SetButtonState(button, true);
+        Sleep();
+        controller.SetButtonState(button, false);
     }
 }
+ 

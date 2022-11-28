@@ -38,7 +38,14 @@ public class HttpServer
         {
             var arr = req.Url.AbsolutePath.Split('/');
             string buttonSt = arr[arr.Length - 1];
-            controller.PressButton(Convert.ToUInt32(buttonSt, 10));
+            controller.PressButton(buttonSt);
+        }
+        
+        if (req.HttpMethod == "POST" && req.Url.AbsolutePath.Contains("/dpad/"))
+        {
+            var arr = req.Url.AbsolutePath.Split('/');
+            string padSt = arr[arr.Length - 1];
+            controller.PressDPad(padSt);
         }
         
         Respond(ctx.Response, "okay");
