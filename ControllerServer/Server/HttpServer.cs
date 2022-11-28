@@ -58,6 +58,9 @@ public class HttpServer
 
         resp.ContentType = "text/html";
         resp.ContentEncoding = Encoding.UTF8;
+        
+        resp.Headers.Add("Access-Control-Allow-Origin", "*");
+        resp.Headers.Add("Access-Control-Allow-Methods", "POST, GET");
 
         resp.OutputStream.Write(Encoding.UTF8.GetBytes(message), 0, message.Length);
         resp.Close();

@@ -31,10 +31,10 @@ public class Controller
                 Button(DualShock4Button.Circle);
                 break;
             case "START":
-                Button(DualShock4Button.Options);
+                Button(DualShock4Button.Share);
                 break;
             case "SELECT":
-                Button(DualShock4Button.Share);
+                Button(DualShock4Button.Options);
                 break;
         }
     }

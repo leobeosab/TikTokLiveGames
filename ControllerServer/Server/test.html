@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <textarea id="testing" rows="200" cols="200"></textarea>
+    <script>
+        
+        const callButton = (button) => {
+            fetch("http://localhost/button/"+button,
+                {
+                    method: "POST"
+                })
+        }
+        
+        const callDpad = (direction) => {
+            fetch("http://localhost/dpad/"+direction,
+                {
+                    method: "POST"
+                })
+        }
+        
+        var area = document.querySelector("#testing")
+        area.addEventListener('input', (e) => {
+            let value = e.target.value
+            switch(value) {
+                case "w":
+                    callDpad("north")
+                    break
+                case "d":
+                    callDpad("east")
+                    break
+                case "s":
+                    callDpad("south")
+                    break
+                case "a":
+                    callDpad("west")
+                    break
+                case "e":
+                    callButton("a")
+                    break
+                case "r":
+                    callButton("b")
+                    break
+                case "p":
+                    callButton("start")
+                    break
+                case "o":
+                    callButton("select")
+                    break
+            }
+            
+            e.target.value = ""
+        })
+    </script>
+</body>
+</html>
