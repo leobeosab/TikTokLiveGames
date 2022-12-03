@@ -1,14 +1,14 @@
-import {Inputs} from './Inputs.js';
+import {InputCollector} from './InputCollector.js';
 import { WebcastPushConnection }  from 'tiktok-live-connector';
 
-//new inputs class with desired inputs
-const inputs = new Inputs(['up','down','ls','rs','left','right','start','select']);
+// new input collector
+const inputCollector = new InputCollector();
 
 // Username of someone who is currently live
-let tiktokUsername = "itsnawty";
+let tiktokUsername = "oldskoldj";
 
 // if the chat message contains any of these words select them and remove the rest
-const regEx = /(?:\b|')(ls|rs|up|down|left|right|start|select)(?:\b|')/
+const regEx = /(?:\b|')(a|b|up|down|left|right|start|select|l|r)(?:\b|')/
 // Create a new wrapper object and pass the username
 let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername,{
     processInitialData: false,
@@ -37,10 +37,10 @@ let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername,{
 tiktokLiveConnection.connect().then(state => {
     console.info(`Connected to roomId ${state.roomId}`);
     setInterval(() => {
-        inputs.chooseFavorite().then(() => {
-            inputs.clear();
+        inputCollector.sendActionWithMostVotes().then(() => {
+            inputCollector.clear();
         });
-    }, 5000)
+    }, 2000)
 }).catch(err => {
     console.error('Failed to connect', err);
 })
@@ -50,11 +50,12 @@ tiktokLiveConnection.connect().then(state => {
 tiktokLiveConnection.on('chat', data => {
     let filter = regEx.exec(data.comment.toLowerCase());
     if(filter){
-       inputs.increment(filter[0])
+        console.log("Adding: " + filter[0] + "       " + data.comment)
+       inputCollector.increment(filter[0])
     }
 })
 
 // And here we receive gifts sent to the streamer
 tiktokLiveConnection.on('gift', data => {
-    console.log(`${data.uniqueId} (userId:${data.userId}) sends ${data.giftId}`);
+    //console.log(`${data.uniqueId} (userId:${data.userId}) sends ${data.giftId}`);
 })
