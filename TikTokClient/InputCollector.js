@@ -35,6 +35,18 @@ export class InputCollector {
                 case "left":
                     this.inputObject.west++
                     break
+                case "a":
+                    this.inputObject.a++
+                    break
+                case "b":
+                    this.inputObject.b++
+                    break
+                case "start":
+                    this.inputObject.start++
+                    break
+                case "select":
+                    this.inputObject.select++
+                    break
                 case "l":
                     this.inputObject.lb++
                     break
@@ -63,9 +75,9 @@ export class InputCollector {
        if(this.inputObject[current] > 0){
            console.log("Sending: " + current);
            if (["north", "south", "east", "west"].indexOf(current) === -1) {
-               await axios.post(`http://192.168.1.85/button/${current}`);
+               await axios.post(`http://192.168.1.234/button/${current}`);
            } else {
-               await axios.post(`http://192.168.1.85/dpad/${current}`);
+               await axios.post(`http://192.168.1.234/dpad/${current}`);
            }
        } else {
        }

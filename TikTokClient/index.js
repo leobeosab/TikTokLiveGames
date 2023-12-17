@@ -5,7 +5,7 @@ import { WebcastPushConnection }  from 'tiktok-live-connector';
 const inputCollector = new InputCollector();
 
 // Username of someone who is currently live
-let tiktokUsername = "oldskoldj";
+let tiktokUsername = "convictcantaloupe";
 
 // if the chat message contains any of these words select them and remove the rest
 const regEx = /(?:\b|')(a|b|up|down|left|right|start|select|l|r)(?:\b|')/
@@ -40,7 +40,7 @@ tiktokLiveConnection.connect().then(state => {
         inputCollector.sendActionWithMostVotes().then(() => {
             inputCollector.clear();
         });
-    }, 2000)
+    }, 500)
 }).catch(err => {
     console.error('Failed to connect', err);
 })
@@ -48,6 +48,7 @@ tiktokLiveConnection.connect().then(state => {
 // Define the events that you want to handle
 // In this case we listen to chat messages (comments)
 tiktokLiveConnection.on('chat', data => {
+  console.log(data.comment)
     let filter = regEx.exec(data.comment.toLowerCase());
     if(filter){
         console.log("Adding: " + filter[0] + "       " + data.comment)
