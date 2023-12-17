@@ -6,13 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel index.js -d dist",
-    "start": " node index.js"
+    "start": " node index.js",
+    "start-twitch-token": "node services/twitch-get-token.js",
+    "start-twitch": "node services/twitch.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.2.0",
-    "tiktok-live-connector": "^1.0.2"
+    "express": "^4.18.2",
+    "handlebars": "^4.7.7",
+    "passport": "^0.6.0",
+    "passport-oauth": "^1.0.0",
+    "tiktok-live-connector": "^1.0.2",
+    "twitch-js": "^2.0.0-beta.45"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "express-session": "^1.17.3",
+    "request": "^2.88.2"
+  }
 }
