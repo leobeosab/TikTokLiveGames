@@ -109,6 +109,34 @@ void toggleButton(Buttons b) {
 
 void loop() {
   delay(1); // If this isn't here it will almost never load
+
+  const String word = Serial.readStringUntil('\n');
+  if (word.indexOf(F("/button/a")) != -1) {
+    toggleButton(A);
+  } else if (word.indexOf(F("/button/b")) != -1) {
+    toggleButton(B);
+  } else if (word.indexOf(F("/button/start")) != -1) {
+    toggleButton(Start);
+  } else if (word.indexOf(F("/button/select")) != -1) {
+    toggleButton(Select);
+  } else if (word.indexOf(F("/button/left")) != -1) {
+    toggleButton(Left);
+  } else if (word.indexOf(F("/button/right")) != -1) {
+    toggleButton(Right);
+  } else if (word.indexOf(F("/dpad/north")) != -1) {
+    toggleButton(Up);
+  } else if (word.indexOf(F("/dpad/east")) != -1) {
+    toggleButton(DRight);
+  } else if (word.indexOf(F("/dpad/south")) != -1) {
+    toggleButton(Down);
+  } else if (word.indexOf(F("/dpad/west")) != -1) {
+    toggleButton(DLeft);
+  } else {
+    Serial.println(F("invalid request"));
+  }
+
+
+  return;
   // Check if a client has connected
   WiFiClient client = server.available();
   if (!client) {
@@ -125,25 +153,25 @@ void loop() {
 
   // Match the request
   int val;
-  if (req.indexOf(F("/button/a")) != -1) {
+  if (word.indexOf(F("/button/a")) != -1) {
     toggleButton(A);
-  } else if (req.indexOf(F("/button/b")) != -1) {
+  } else if (word.indexOf(F("/button/b")) != -1) {
     toggleButton(B);
-  } else if (req.indexOf(F("/button/start")) != -1) {
+  } else if (word.indexOf(F("/button/start")) != -1) {
     toggleButton(Start);
-  } else if (req.indexOf(F("/button/select")) != -1) {
+  } else if (word.indexOf(F("/button/select")) != -1) {
     toggleButton(Select);
-  } else if (req.indexOf(F("/button/left")) != -1) {
+  } else if (word.indexOf(F("/button/left")) != -1) {
     toggleButton(Left);
-  } else if (req.indexOf(F("/button/right")) != -1) {
+  } else if (word.indexOf(F("/button/right")) != -1) {
     toggleButton(Right);
-  } else if (req.indexOf(F("/dpad/north")) != -1) {
+  } else if (word.indexOf(F("/dpad/north")) != -1) {
     toggleButton(Up);
-  } else if (req.indexOf(F("/dpad/east")) != -1) {
+  } else if (word.indexOf(F("/dpad/east")) != -1) {
     toggleButton(DRight);
-  } else if (req.indexOf(F("/dpad/south")) != -1) {
+  } else if (word.indexOf(F("/dpad/south")) != -1) {
     toggleButton(Down);
-  } else if (req.indexOf(F("/dpad/west")) != -1) {
+  } else if (word.indexOf(F("/dpad/west")) != -1) {
     toggleButton(DLeft);
   } else {
     Serial.println(F("invalid request"));
