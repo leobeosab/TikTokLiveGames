@@ -7,8 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel index.js -d dist",
     "start": " node index.js",
-    "start-twitch-token": "node services/twitch-get-token.js",
-    "start-twitch": "node services/twitch.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +18,6 @@
     "passport-oauth": "^1.0.0",
     "serialport": "^12.0.0",
     "tiktok-live-connector": "^1.0.2",
-    "twitch-js": "^2.0.0-beta.45"
   },
   "type": "module",
   "devDependencies": {
